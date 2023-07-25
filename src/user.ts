@@ -1,33 +1,32 @@
 import { AggregateRoot } from './aggregate-root'
-import { SubscriptionId } from './subscription-id'
+import { SubscriptionId, ProductId } from './aggregates'
 
 type Aggregates = {
   subscriptionId: SubscriptionId
+  productId: ProductId
 }
 
-type Entity = {
+type Props = {
   id: string
   name: string
   username: string
   password: string
 }
 
-export class User extends AggregateRoot<[SubscriptionId]> {
+export class User extends AggregateRoot<[SubscriptionId, ProductId]> {
   private constructor (
-    private readonly _id: string,
-    private readonly _name: string,
-    private readonly _username: string,
-    private readonly _password: string,
-    subscriptionId?: SubscriptionId
+    private readonly _props: Props,
+    subscriptionId: SubscriptionId,
+    productId: ProductId
   ) {
     super()
   }
 
-  static new ({ id, name, username, password, subscriptionId }: Aggregates & Entity): User {
-    const user = new User(id, name, username, password, subscriptionId)
+  static new ({ id, name, username, password, subscriptionId, productId }: Aggregates & Props): User {
+    const user = new User({ id, name, username, password }, subscriptionId, productId)
     user.movePrivateKeys()
     user.removePrivateKeys()
-    user.setAggregates([subscriptionId])
+    user.setAggregates([subscriptionId, productId])
     return user
   }
 }

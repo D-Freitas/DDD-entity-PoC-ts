@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
-import { Entity } from './@shared/values-objects'
+import { Entity } from '../@shared/values-objects'
 
 export class SubscriptionId extends Entity {
   constructor (

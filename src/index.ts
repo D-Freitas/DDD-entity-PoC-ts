@@ -1,4 +1,4 @@
-import { SubscriptionId } from './subscription-id'
+import { SubscriptionId, ProductId } from './aggregates'
 import { User } from './user'
 
 const user = User.new({
@@ -6,6 +6,7 @@ const user = User.new({
   name: 'any_name',
   username: 'any_username',
   password: 'any_password',
-  subscriptionId: new SubscriptionId('any_subscription')
+  subscriptionId: new SubscriptionId('any_subscription'),
+  productId: new ProductId('any_product')
 })
 console.log(user)
