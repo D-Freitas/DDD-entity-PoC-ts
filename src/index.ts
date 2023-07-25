@@ -1,7 +1,7 @@
 import { SubscriptionId, ProductId } from './aggregates'
 import { User } from './user'
 
-const user = User.new({
+const user = User.create({
   id: 'any_id',
   name: 'any_name',
   username: 'any_username',

@@ -14,16 +14,12 @@ type Props = {
 }
 
 export class User extends AggregateRoot<[SubscriptionId, ProductId]> {
-  private constructor (
-    private readonly _props: Props,
-    subscriptionId: SubscriptionId,
-    productId: ProductId
-  ) {
+  private constructor (private readonly _props: Props) {
     super()
   }
 
-  static new ({ id, name, username, password, subscriptionId, productId }: Aggregates & Props): User {
-    const user = new User({ id, name, username, password }, subscriptionId, productId)
+  static create ({ subscriptionId, productId, ...props }: Aggregates & Props): User {
+    const user = new User(props)
     user.movePrivateKeys()
     user.removePrivateKeys()
     user.setAggregates([subscriptionId, productId])
