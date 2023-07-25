@@ -1,24 +1,13 @@
-import { Entity, Identifier } from './@shared/values-objects'
+import { Entity } from './@shared/values-objects'
 
-export abstract class AggregateRoot<ID extends Identifier> extends Entity<ID> {
-  protected movePrivateKeys (): void {
-    for (const prop in this) {
-      if (this.#hasOwnPrivateProperty(prop)) {
-        const key = prop.slice(1)
-        this[key as keyof this] = this[prop]
+export abstract class AggregateRoot<ID extends unknown[]> extends Entity {
+  protected setAggregates (...aggregates: ID[]) {
+    for (const aggregate of aggregates) {
+      for (const prop of aggregate) {
+        const keyName = (prop as unknown as {}).constructor.name
+        const key = `${keyName.charAt(0).toLowerCase()}${keyName.slice(1)}`;
+        (this as unknown as ID)[key as any] = (prop as unknown as { id: string }).id
       }
     }
-  }
-
-  protected removePrivateKeys (): void {
-    for (const prop in this) {
-      if (this.#hasOwnPrivateProperty(prop)) {
-        delete this[prop]
-      }
-    }
-  }
-
-  #hasOwnPrivateProperty (prop: Extract<keyof this, string>): boolean {
-    return prop.startsWith('_') && this.hasOwnProperty(prop)
   }
 }
