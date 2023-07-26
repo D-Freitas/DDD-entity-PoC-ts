@@ -3,7 +3,7 @@ import { Entity } from '../@shared/values-objects'
 
 export class ProductId extends Entity {
   constructor (
-    private _id: string = uuidv4()
+    private readonly _id: string = uuidv4()
   ) {
     super()
   }

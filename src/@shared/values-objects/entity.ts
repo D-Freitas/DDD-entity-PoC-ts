@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/no-dynamic-delete */
+/* eslint-disable no-prototype-builtins */
 export abstract class Entity {
   protected movePrivateKeys (): void {
     for (const [key, value] of Object.entries(this)) {
       if (this.#isPrivateProperty(key)) {
         if (key === '_props') {
           Object.assign(this, value)
-          delete (this as any)['_props']
+          delete (this as any)._props
         } else {
           const propertyName = key.slice(1) as keyof this
           this[propertyName] = value

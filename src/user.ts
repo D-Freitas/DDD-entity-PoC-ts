@@ -18,11 +18,11 @@ export class User extends AggregateRoot<[SubscriptionId, ProductId]> {
     super()
   }
 
-  static create ({ subscriptionId, productId, ...props }: Aggregates & Props): User {
+  static create ({ subscriptionId, productId, ...props }: Aggregates & Props): (User & Props) {
     const user = new User(props)
     user.movePrivateKeys()
     user.removePrivateKeys()
     user.setAggregates([subscriptionId, productId])
-    return user
+    return (user as unknown as User & Props)
   }
 }
